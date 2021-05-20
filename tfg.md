@@ -1,4 +1,5 @@
-#Clobber documento técnico de infraestructuras
+# Clobber: documento técnico de infraestructuras
+## Por Xabier Iglesias Pérez
 ## Esquema de red
 
 ### Router gw.clobber.com (10.10.24.1)
