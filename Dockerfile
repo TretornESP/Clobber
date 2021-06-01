@@ -5,11 +5,15 @@ RUN apt update && apt install --no-install-recommends -y ssh python3.8 python3-p
 WORKDIR /server
 COPY python/app/requirements.txt .
 RUN pip install -r requirements.txt
-COPY python/app/src/ .
+RUN pip install gunicorn
+#COPY python/app/src/ . #Uncomment in production!!!!
 RUN echo 'root:clobber' | chpasswd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 RUN useradd -ms /bin/bash clobber
 RUN echo 'clobber:clobber' | chpasswd
-RUN mkdir /home/clobber/cdata
-ENTRYPOINT service ssh start && mount /dev/vhd /home/clobber/cdata && chown -R clobber:clobber /home/clobber/cdata && python3 main.py
+RUN mkdir -p /scripts
+RUN mkdir -p /home/clobber/cdata/commands
+RUN chown -R clobber:clobber /home/clobber/cdata
+#ENTRYPOINT service ssh start && gunicorn --bind 0.0.0.0:5000 main:app --log-level warning && echo "done" #Swap comments for production
+ENTRYPOINT service ssh start && gunicorn --reload --bind 0.0.0.0:5000 main:app --log-level debug && echo "done"

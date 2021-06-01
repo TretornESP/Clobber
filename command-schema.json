@@ -1,0 +1,35 @@
+{
+   "$schema": "http://clobber.io/1.0.0/core/commander-schema#",
+   "title": "Clobber command injector json schema",
+   "description": "This json defines the trigger and command for the new action",
+   "type": "object",
+
+   "properties": {
+      "name": {
+         "description": "The unique name for a trigger",
+         "type": "string"
+      },
+
+      "command": {
+         "description": "Command to execute, ignored if a script file is present in the package",
+         "type": "string"
+      },
+
+      "filter": {
+         "description": "Action to execute after command finishes, stdout is passed towards here, ignored if filter file is present in the package",
+         "type": "string"
+      },
+
+      "errfilter": {
+        "description": "Action to execute after command finishes, stderr is passed toward here",
+        "type": "string"
+      },
+
+      "async": {
+        "description": "If set to true, the execution will return the url to a temporal file as a promise, when the process ends the file will contain the output",
+        "type": "boolean"
+      }
+   },
+
+   "required": ["name", "command"]
+}

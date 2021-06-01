@@ -244,7 +244,7 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $id
 Podemos hacer ssh a la ip que nos devolvio el último comando con
 `ssh root@ip` user `root` contraseña `clobber`
 
-##Configuracion del servidor web + comandos
+## Configuracion del servidor web + comandos
 
 En función del tiempo separaré este en 2 (firewall protegiendo datos)
 

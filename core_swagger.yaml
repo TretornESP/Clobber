@@ -1,0 +1,94 @@
+swagger: "2.0"
+info:
+  description: "API For the desktop clobber template"
+  version: "1.0.0"
+  title: "Clobber Core API"
+  termsOfService: ""
+  contact:
+    email: "xabier.iglesias.perez@udc.es"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: "/core"
+tags:
+- name: "files"
+  description: "Shared files operations"
+schemes:
+- "https"
+- "http"
+paths:
+  /files:
+    post:
+      tags:
+      - "files"
+      summary: "Upload a file from the client"
+      consumes:
+      - "application/octet-stream"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "file"
+        description: "Specification for the location and permissions of the uploaded file"
+        required: true
+        schema:
+          $ref: "#/definitions/uploadResult"
+      responses:
+        "405":
+          description: "Invalid input"
+  /files/downloadByHash:
+    get:
+      tags:
+      - "files"
+      summary: "Downloads a file given its full path"
+      produces:
+      - "application/octet-stream"
+      parameters:
+      - in: "query"
+        name: "hash"
+        type: "string"
+        description: "Hash of the file"
+        required: true
+      responses:
+        "404":
+          description: "File not found"
+  /system/getSystemTime:
+    get:
+      tags:
+      - "system"
+      summary: "Gets the system datetime in specified format"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "format"
+        type: "string"
+        description: "Format for the datetime"
+        required: true
+      responses:
+        "405":
+          description: "Invalid datetime"
+  /management/addRuleFile:
+    post:
+      tags:
+      - "management"
+      summary: "Upload a rule from the client"
+      consumes:
+      - "application/octet-stream"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "file"
+        description: "List of rules to add"
+        required: true
+        schema:
+          $ref: "#/definitions/uploadResult"
+      responses:
+        "405":
+          description: "Invalid rule file"
+      
+definitions:
+  uploadResult:
+    type: "string"
+  
