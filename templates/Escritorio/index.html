@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="clobber.js">
+
+</script>
+</head>
+<body>
+<div class="bg"></div>
+
+<div id="window">
+  <div id="window-header">Click here to move</div>
+  <p>Move</p>
+  <p>this</p>
+  <p>DIV</p>
+</div>
+
+<div class="navbar">
+  <form class="search" action="#">
+    <input type="text" placeholder="Search.." name="search">
+    <button id="search-btn" type="submit"><i class="fa fa-search"></i></button>
+  </form>
+
+  <div class="datetime">
+    <span>jun 10 23:56</span>
+  </div>
+
+  <div class="user">
+    <i class="fa fa-user" style="width:100px;height:100px;"></i>
+    <span>Tretorn</span>
+  </div>
+
+</div>
+<script>
+
+  $(document).ready(function () {
+    clobber_bind_button("search-btn", '/commands/search/'+$("#fname").val(), search_callback);
+  });
+
+  function search_callback(data) {
+    $.each( data, function( key, val ) {
+      console.log("KEY: " + key + " VAL:" + val);
+    });
+  }
+
+</script>
+
+<script>
+//Make the DIV element draggagle:
+dragElement(document.getElementById("window"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "-header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "-header").onmousedown = dragMouseDown;
+  } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+</script>
+
+
+</body>
+</html>

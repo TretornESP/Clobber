@@ -40,7 +40,7 @@ class Command:
         filtered_error = ""
         print("PARAMS: "+params, flush=True)
         cmd = self.command.replace("%params%", params)
-        print(self.command, flush=True)
+        print(cmd, flush=True)
         sp = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subprocess_out = sp.stdout.read()
         subprocess_err = sp.stderr.read()

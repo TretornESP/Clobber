@@ -1,0 +1,4 @@
+{
+  "name": "search",
+  "command": "find /home/clobber/ -name \"*%params%*\""
+}

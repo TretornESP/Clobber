@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
   <div>
@@ -28,7 +28,6 @@
   </script>
   <script type=text/javascript>
     $(document).ready(function () {
-
       $('#search').bind('click', function() {
         console.log("CLICKED");
         $.getJSON($SCRIPT_ROOT + '/commands/search/'+$("#fname").val(), function(data) {

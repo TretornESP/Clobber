@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='CSS/styles.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script src="{{ url_for('static', filename='JS/clobber.js') }}">
+
+</script>
+</head>
+<body>
+<div class="bg"></div>
+
+<div id="window">
+  <div id="window-header">Click here to move</div>
+  <p>Move</p>
+  <p>this</p>
+  <p>DIV</p>
+</div>
+
+<div class="navbar">
+  <div class="search" action="#">
+    <input id="search-text" type="text" placeholder="Search.." name="search">
+    <button id="search-btn"><i class="fa fa-search"></i></button>
+  </div>
+
+  <div class="datetime">
+    <span>jun 10 23:56</span>
+  </div>
+
+  <div class="user">
+    <i class="fa fa-user"></i>
+    <span>Tretorn</span>
+  </div>
+
+</div>
+<script>
+
+  $(document).ready(function () {
+    $("#search-btn").click(function() {
+      clobber('/commands/search/', "#search-text", search_callback);
+    });
+  });
+
+  function search_callback(data) {
+    var files = data['stdout'].substring(2, data['stdout'].length-1).split("\\n");
+    files.pop();
+    var result = "<table>";
+
+    $.each(files, function(k, y){
+      result += '<tr><td><a href="'+y+'">'+y+'</a></td></tr>';
+      console.log(y);
+    });
+
+    result += "</table>";
+    newWindow("Resultados de busqueda", 0, 0, 800, 800, result);
+  }
+
+function rew(title) {
+  $("#"+title).remove();
+}
+
+function newWindow(title, x, y, width, height, content) {
+  var uid = generateUID();
+
+  var header = "<div class=\"window-header\">"+title+"<i class=\"fa fa-window-close\" onclick=rew(\""+uid+"\")></i></div>";
+  var inner = "<div>"+content+"</div>";
+  var html = '<div id="'+uid+'" class="window" style="top:'+y+'px;left:'+x+'px;height:'+height+'px;width:'+width+'px;">'+header+inner+'</div>';
+
+  var window = $(html);
+  $('body').append(window);
+  $(".window").draggable();
+}
+
+function generateUID() {
+    // I generate the UID from two parts here
+    // to ensure the random number provide enough bits.
+    var firstPart = (Math.random() * 46656) | 0;
+    var secondPart = (Math.random() * 46656) | 0;
+    firstPart = ("000" + firstPart.toString(36)).slice(-3);
+    secondPart = ("000" + secondPart.toString(36)).slice(-3);
+    return firstPart + secondPart;
+}
+
+
+</script>
+
+
+</body>
+</html>

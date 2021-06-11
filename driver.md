@@ -19,3 +19,14 @@ Actualizamos entonces los `Dockerfile` y `new_instance.sh`
 
 El programa a ejecutarse en cada instancia de clobber es un servidor Flask
 que aceptará, procesará y devolverá datos JSON de manera muy eficiente.
+
+### Diseño
+
+La arquitectura del núcleo es simple. Un backend extensible al que podemos añadir dos
+elementos diferenciados: Apps y Reglas.
+
+Las apps son páginas frontend, para funcionar solo necesitan incluir el script proporcionado clobber.js
+Las reglas son librerías de funciones que se comunican con la máquina docker diréctamente.
+
+Estos dos elementos pueden interaccionar mediante peticiones (las reglas se exponen como endpoints y devuelven
+un json)
