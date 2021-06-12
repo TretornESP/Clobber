@@ -5,6 +5,7 @@
 <meta charset="utf-8"/>
 <link rel="stylesheet" href="{{ url_for('static', filename='CSS/styles.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<ling rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script>
@@ -62,13 +63,21 @@ function rew(title) {
 function newWindow(title, x, y, width, height, content) {
   var uid = generateUID();
 
-  var header = "<div class=\"window-header\">"+title+"<i class=\"fa fa-window-close\" onclick=rew(\""+uid+"\")></i></div>";
+  var header = "<div id=\""+uid+"-header\" class=\"window-header\">"+title+"<i class=\"fa fa-window-close\" onclick=rew(\""+uid+"\")></i></div>";
   var inner = "<div>"+content+"</div>";
   var html = '<div id="'+uid+'" class="window" style="top:'+y+'px;left:'+x+'px;height:'+height+'px;width:'+width+'px;">'+header+inner+'</div>';
 
   var window = $(html);
   $('body').append(window);
-  $(".window").draggable();
+  $(".window").css("z-index", "90");
+  $("#"+uid).css("z-index", "100");
+  $("#"+uid).click(function(){
+    $(".window").css("z-index", "90");
+    $("#"+uid).css("z-index", "100");
+  });
+  $("#"+uid).resizable().draggable({
+    handle: "#"+uid+"-header"
+  });
 }
 
 function generateUID() {
