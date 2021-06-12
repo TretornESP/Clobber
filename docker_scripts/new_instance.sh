@@ -6,6 +6,8 @@
 #  Username
 #Outputs:
 #  ip of the instance
+#ErrLVL:
+# 0 Okey, 1 Invalid Params, 2 Container already online
 #WARNING: Storage for the user must be online before calling this script!!!
 
 if [ "$#" -ne 1 ]; then
@@ -14,6 +16,11 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
+if [ "$( docker container inspect -f '{{.State.Status}}' $1 )" == "running" ]
+then
+  echo "Container is already on!"
+  exit 2
+fi
 iscsiadm --mode node --targetname iqn.com.clobber:$1 --portal 10.10.24.3:3260 -u
 echo "loged out of previous session just in case"
 iscsiadm --mode discovery --type sendtargets --portal 10.10.24.3
@@ -32,3 +39,4 @@ echo "Instance $1 is up, internal ip: $ip"
 echo "$port"
 echo "Login command: ssh -p [ssh port] clobber@10.10.24.2"
 echo "Default password: clobber"
+exit 0

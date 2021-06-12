@@ -263,3 +263,23 @@ nano /etc/ssh/sshd_config
 #ponemos PermitRootLogin a without-password
 systemctl restart sshd
 ```
+
+#URLS:
+  https://stackoverflow.com/questions/34496882/get-docker-container-id-from-container-name
+  https://stackoverflow.com/questions/43721513/how-to-check-if-the-docker-engine-and-a-docker-container-are-running
+  https://www.linuxquestions.org/questions/linux-server-73/iptable-port-forward-between-two-lan-interface-945719/ creo que este
+  https://serverfault.com/questions/532569/how-to-do-port-forwarding-redirecting-on-debian creo que este no
+  https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-20-04-es
+  https://makitweb.com/create-simple-login-page-with-php-and-mysql/
+  https://serverfault.com/questions/273324/how-to-make-iptables-rules-expire
+  https://askubuntu.com/questions/1108042/map-a-range-of-ports-to-another-range-of-ports-equal-lengths-of-ranges
+  https://serverfault.com/questions/729810/dnat-port-range-with-different-internal-port-range-with-iptables importante!!
+
+  gunicorn --bind 0.0.0.0:9420 main:app --log-level warning
+
+  Comando para el docker-server
+
+
+  Que hice:
+    Router ip tables a webserver
+    Webserver server apache2 + php + mysql a pelo
