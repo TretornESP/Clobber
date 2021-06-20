@@ -283,3 +283,6 @@ systemctl restart sshd
   Que hice:
     Router ip tables a webserver
     Webserver server apache2 + php + mysql a pelo
+
+  https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04-es
+  

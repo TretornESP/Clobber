@@ -32,6 +32,13 @@ def apps(template):
     return make_response(render_template(
         template
     ))
+@app.route("/commands/")
+def show_commands():
+    commands = manager.get_all_commands()
+    if len(commands) > 0:
+        return json.dumps(commands)
+    else:
+        return "No commands installed"
 @app.route("/commands/<cmd>")
 @app.route("/commands/<cmd>/<params>")
 def commands(cmd, params=""):
