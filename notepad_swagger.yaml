@@ -1,0 +1,52 @@
+    openapi: 3.0.0
+    info:
+      title: Notepad-- API
+      description: Este documento contiene la definición de los endpoints Clobber par la aplicación Notepad--
+      version: 0.1.9
+    servers:
+      - url: http://clobber.tretornesp.com/apps/notepad
+        description: Deployed alfa server
+    paths:
+      /api/cargaFichero/{fichero}:
+        get:
+          summary: abre un fichero y devuelve su contenido
+          parameters:
+            - in: path
+              name: fichero
+              schema:
+                type: string
+              required: true
+              description: Dirección del fichero a abrir
+          responses:
+            '200':    # status code
+              description: El contenido del documento en formato JSON
+              content:
+                application/json:
+                  schema: 
+                    type: array
+                    items: 
+                      type: string
+            '404':
+              description: No se ha encontrado el fichero
+      /api/grabaFichero/:
+        post:
+          summary: guarda el texto en un fichero dado el nombre
+          parameters:
+            - in: query
+              name: fichero
+              description: Fichero a grabar
+              schema:
+                type: object
+                required:
+                  - text
+                  - fileName
+                properties:
+                  text:
+                    type: string
+                  fileName:
+                    type: string
+          responses:
+            '200':    # status code
+              description: El fichero se ha grabado con éxito
+            '500':
+              description: No se puede crear el fichero
