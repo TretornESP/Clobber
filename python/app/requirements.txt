@@ -3,3 +3,4 @@ gunicorn==20.1.0
 Jinja2==3.0.1
 zipfile36==0.1.3
 sqlitedict==1.7.0
+psutil==5.8.0

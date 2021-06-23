@@ -4,6 +4,8 @@ import os, shutil
 import json
 from dbmanager import DBManager
 from command import Command
+import tester
+import psutil
 
 app = Flask(__name__)
 app.jinja_env.auto_reload = True
@@ -13,6 +15,18 @@ app.config['MAX_CONTENT_PATH'] = 1024*1024
 
 manager = DBManager("/home/clobber/cdata/commands.sqlite")
 
+def get_fs_type(mypath):
+    root_type = ""
+    for part in psutil.disk_partitions():
+        if part.mountpoint == '/':
+            root_type = part.fstype
+            continue
+
+        if mypath.startswith(part.mountpoint):
+            return part.fstype
+
+    return root_type
+
 @app.route("/", methods=["GET"])
 def starting_url():
     json_data = request.json
@@ -20,7 +34,7 @@ def starting_url():
     return "JSON value sent: " + a_value
 @app.route("/test")
 def test():
-    return "Server is on"
+    return get_fs_type("/home/clobber/cdata")
 @app.route("/management/emptyRules")
 def cleanup():
     manager.empty()

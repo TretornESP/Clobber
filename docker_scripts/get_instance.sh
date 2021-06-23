@@ -21,25 +21,29 @@ then
   exit 2
 fi
 
-id=$(docker ps -aqf "name=$1")
-ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $id)
-port2=$(docker port $1|sed -n '2 p') #Sed is only for debugging while ssh is on
-port1=$(docker port $1|sed -n '1 p') #Sed is only for debugging while ssh is on
-port1=${port1##*:}
-port2=${port2##*:}
+port=$(docker port $1)
+echo "${port: -4}"
+exit 0
 
-if [ "$port1" -gt "$port2" ]; then
-  if [ "$port2" -ge "5000" ] && [ "$port2" -le "6000" ]; then
-    echo "$port2"
-    exit 0
-  else
-    exit 2
-  fi
-else
-  if [ "$port1" -ge "5000" ] && [ "$port1" -le "6000" ]; then
-    echo "$port1"
-    exit 0
-  else
-    exit 2
-  fi
-fi
+#id=$(docker ps -aqf "name=$1")
+#ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $id)
+#port2=$(docker port $1|sed -n '2 p') #Sed is only for debugging while ssh is on
+#port1=$(docker port $1|sed -n '1 p') #Sed is only for debugging while ssh is on
+#port1=${port1##*:}
+#port2=${port2##*:}
+
+#if [ "$port1" -gt "$port2" ]; then
+#  if [ "$port2" -ge "5000" ] && [ "$port2" -le "6000" ]; then
+#    echo "$port2"
+#    exit 0
+#  else
+#    exit 2
+#  fi
+#else
+#  if [ "$port1" -ge "5000" ] && [ "$port1" -le "6000" ]; then
+#    echo "$port1"
+#    exit 0
+#  else
+#    exit 2
+#  fi
+#fi

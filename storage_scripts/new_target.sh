@@ -15,16 +15,27 @@ if [ "$#" -ne 2 ]; then
     exit 1
 fi
 
+if test -f "/rootfs/$1"; then
+  echo "using cached storage"
+  rsync -a /rootfs/$1 /fs/$2
+else
+  echo "creating storage"
+  dd if=/dev/zero of=/fs/$2 bs=1M count=$1
+  mkfs -t ext4 /fs/$2
+fi
 
-dd if=/dev/zero of=/fs/$2 bs=1M count=$1
-mkfs -t ext4 /fs/$2
 
 if ! file /fs/$2 | grep "ext4"; then
     echo "fs file creation error"
     exit 2
 fi
 
-no=$(tgtadm --lld iscsi --op show --mode target | grep ^Target | tail -1 | awk '{print substr($2, 1, 1)}')
+no=$(tgtadm --lld iscsi --op show --mode target | grep ^Target | tail -1 | cut -d' ' -f2)
+if [ -z "$no" ]; then
+  no="0"
+else
+  no=${no::-1}
+fi
 next=$(($no+1))
 
 tgtadm --lld iscsi --op new --mode target --tid $next -T iqn.com.clobber:$2
