@@ -34,7 +34,7 @@ results_loop () {
   echo "ITER: $1 SIZE: $2 TOUT: $3"
   echo "-----------------------"
   echo "$okay / $1 machines booted successfully"
-  echo "log files $4/$1_$2_$3_failures.log $4/$1_$2_$3_targets.log $4/$1_$2_$3_instances.log"
+  echo "log files $4/$1_$2_$3_failures.log $4/$1_$2_$3_targets.csv $4/$1_$2_$3_instances.csv"
   echo "-----------------------"
   echo "START: $start"
   echo "TARGT: $targets"
@@ -49,10 +49,11 @@ results_loop () {
       results_loop $1 $2 $3 $4
           ;;
       *)
-      echo -e "\nCleaning up."
+      echo "Cleaning up."
       ssh root@10.10.24.3 "bash /Clobber/storage_scripts/cleanup.sh" > /dev/null 2>&1
       ssh root@10.10.24.2 "bash /Clobber/docker_scripts/cleanup.sh" > /dev/null 2>&1
       echo "Cleanup done!"
+
       exit 0
           ;;
   esac
@@ -65,16 +66,19 @@ if [ "$#" -ne 4 ]; then
     exit 1
 fi
 
-rm $4/$1_$2_$3_targets.log
-rm $4/$1_$2_$3_instances.log
+rm $4/$1_$2_$3_targets.csv
+echo -e "id, time" > $4/$1_$2_$3_targets.csv
+rm $4/$1_$2_$3_instances.csv
+echo -e "id, time" > $4/$1_$2_$3_instances.csv
+
 TIMEFORMAT=%R
 
 start=$(date +"%T")
 echo "Starting stress test with $1 iterations of size $2"
 for i in $(seq 1 $1);
 do
-  { time ssh root@10.10.24.3 "bash /Clobber/storage_scripts/new_target.sh $2 stress$i" ; } 2>> $4/$1_$2_$3_targets.log
-  echo ";" >> $4/$1_$2_$3_targets.log
+  echo "$i, " | tr -d '\n' >> $4/$1_$2_$3_targets.csv
+  { time ssh root@10.10.24.3 "bash /Clobber/storage_scripts/new_target.sh $2 stress$i" ; } 2>> $4/$1_$2_$3_targets.csv
   echo "storage $i/$1 up"
 done
 
@@ -83,8 +87,8 @@ echo "All $i targets created at $targets"
 
 for i in $(seq 1 $1);
 do
-  { time ssh root@10.10.24.2 "bash /Clobber/docker_scripts/new_instance.sh stress$i" ; } 2>> $4/$1_$2_$3_instances.log
-  echo ";" >> $4/$1_$2_$3_instances.log
+  echo "$i, " | tr -d '\n' >> $4/$1_$2_$3_instances.csv
+  { time ssh root@10.10.24.2 "bash /Clobber/docker_scripts/new_instance.sh stress$i" ; } 2>> $4/$1_$2_$3_instances.csv
   echo "instance $i/$1 up"
 done
 
