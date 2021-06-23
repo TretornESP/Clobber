@@ -1,0 +1,21 @@
+id, time
+1, mount: /fs/stress1: can't find in /etc/fstab.
+1.170
+2, mount: /fs/stress2: can't find in /etc/fstab.
+0.676
+3, mount: /fs/stress3: can't find in /etc/fstab.
+0.660
+4, mount: /fs/stress4: can't find in /etc/fstab.
+0.660
+5, mount: /fs/stress5: can't find in /etc/fstab.
+0.672
+6, mount: /fs/stress6: can't find in /etc/fstab.
+0.652
+7, mount: /fs/stress7: can't find in /etc/fstab.
+0.802
+8, mount: /fs/stress8: can't find in /etc/fstab.
+0.663
+9, mount: /fs/stress9: can't find in /etc/fstab.
+0.657
+10, mount: /fs/stress10: can't find in /etc/fstab.
+0.666

@@ -3,7 +3,9 @@
 #
 #Clobber bash script by xabier.iglesias.perez@udc.es
 #Stresses the services until they explode.
-#Wish we could turn back time! To the good old days!
+
+#If you want to feel like Clobber when you execute this program with 1000 iterations:
+#https://www.youtube.com/watch?v=QWaWsgBbFsA
 #
 #Params:
 #number of iterations
